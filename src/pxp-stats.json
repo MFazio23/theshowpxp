@@ -1,0 +1,108 @@
+{
+  "batting": [
+    {
+      "name": "Plate Appearances",
+      "label": "PA",
+      "type": "int",
+      "value": 10
+    },
+    {
+      "name": "Singles",
+      "label": "1B",
+      "type": "int",
+      "value": 5
+    },
+    {
+      "name": "Doubles",
+      "label": "2B",
+      "type": "int",
+      "value": 10
+    },
+    {
+      "name": "Triples",
+      "label": "3B",
+      "type": "int",
+      "value": 20
+    },
+    {
+      "name": "Home Runs",
+      "label": "HR",
+      "type": "int",
+      "value": 20
+    },
+    {
+      "name": "Runs",
+      "label": "R",
+      "type": "int",
+      "value": 5
+    },
+    {
+      "name": "Runs Batted In",
+      "label": "RBI",
+      "type": "int",
+      "value": 5
+    },
+    {
+      "name": "Stolen Bases",
+      "label": "SB",
+      "type": "int",
+      "value": 5
+    },
+    {
+      "name": "Walks",
+      "label": "BB",
+      "type": "int",
+      "value": 5
+    }
+  ],
+  "pitching": [
+    {
+      "name": "Innings Pitched",
+      "label": "IP",
+      "type": "int",
+      "value": 40
+    },
+    {
+      "name": "Strikeouts",
+      "label": "K",
+      "type": "int",
+      "value": 10
+    },
+    {
+      "name": "Win",
+      "label": "W",
+      "type": "Boolean",
+      "value": 20
+    },
+    {
+      "name": "Save",
+      "label": "SV",
+      "type": "Boolean",
+      "value": 20
+    },
+    {
+      "name": "Hold",
+      "label": "HLD",
+      "type": "Boolean",
+      "value": 20
+    },
+    {
+      "name": "Quality Start",
+      "label": "QS",
+      "type": "Boolean",
+      "value": 10
+    },
+    {
+      "name": "Complete Game",
+      "label": "CG",
+      "type": "Boolean",
+      "value": 25
+    },
+    {
+      "name": "Shutout",
+      "label": "SHO",
+      "type": "Boolean",
+      "value": 25
+    }
+  ]
+}
