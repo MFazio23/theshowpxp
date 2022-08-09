@@ -5,6 +5,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#root {
+  height: 100%;
+}
 
 code {
   font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

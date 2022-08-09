@@ -4,7 +4,7 @@ import CalculationSection from "./CalculationSection";
 import TopBar from "./TopBar";
 import InfoDialog from "./InfoDialog";
 import {useState} from "react";
-import calculatorItems from "./pxp-stats.json"
+import calculatorItems from "./data/pxp-stats.json"
 
 function App() {
     const initialStats = calculatorItems.batting.concat(calculatorItems.pitching).reduce((obj, stat) => {
@@ -44,7 +44,7 @@ function App() {
                                currentTotals={currentTotals}/>
             </main>
             <footer className="app-footer">
-                <CalculationSection currentTotals={currentTotals}/>
+                <CalculationSection currentTotals={currentTotals} calculatorItems={calculatorItems}/>
             </footer>
             <InfoDialog isOpen={isInfoDialogOpen} onInfoDialogClose={handleInfoDialogClose}/>
         </div>
