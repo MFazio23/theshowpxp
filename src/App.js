@@ -24,11 +24,13 @@ function App() {
     }
 
     const onChangedValue = (label, newValue) => {
-        if (newValue >= 0) {
+        const value = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+        // Value can be a number or a Boolean, both of which work here.
+        if (value >= 0) {
             setCurrentTotals(
                 {
                     ...currentTotals,
-                    [label]: newValue,
+                    [label]: value,
                 }
             )
         }
