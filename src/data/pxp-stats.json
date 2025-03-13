@@ -4,7 +4,7 @@
       "name": "Plate Appearances",
       "label": "PA",
       "type": "int",
-      "value": 10
+      "value": 15
     },
     {
       "name": "Singles",
