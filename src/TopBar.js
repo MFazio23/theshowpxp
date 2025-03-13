@@ -8,11 +8,17 @@ function TopBar(props) {
     const theme = useTheme()
     const colorModeContext = useContext(ColorModeContext);
 
+    const fontSize = {
+        md: '3rem',
+        sm: '2rem',
+        xs: '1.5rem'
+    }
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h3" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h3" component="div" sx={{flexGrow: 1, fontSize}}>
                         MLB the Show PXP Calculator
                     </Typography>
                     <IconButton

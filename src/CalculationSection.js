@@ -71,7 +71,7 @@ function CalculationSection(props) {
                     onChange={onDifficultyChange}
                     value={difficultyValue}
                     valueLabelDisplay="on"
-                    sx={{maxWidth: 500, marginLeft: "1em"}}
+                    sx={{maxWidth: 500, marginLeft: "2em"}}
                 />
                 <FormGroup>
                     <FormControlLabel control={<Switch checked={isOnline} onChange={onOnlineChange}/>}
