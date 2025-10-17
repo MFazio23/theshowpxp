@@ -29,22 +29,23 @@ const difficulties = [
     },
 ];
 
-const calculateStatsTotal = (stats, counts, difficultyValue, isOnline) => {
+const calculateStatsTotal = (stats, counts, difficultyValue, isOnline, isDoublePXP) => {
     const statsTotal = stats.reduce((total, stat) => counts[stat.label] * stat.value + total, 0);
 
-    return parseInt(statsTotal * calculateMultiplier(difficultyValue, isOnline));
+    return parseInt(statsTotal * calculateMultiplier(difficultyValue, isOnline, isDoublePXP));
 }
 
-const calculateMultiplier = (difficultyValue, isOnline) => (1 + (difficultyValue / 10)) * (isOnline ? 1.5 : 1)
+const calculateMultiplier = (difficultyValue, isOnline, isDoublePXP) => (1 + (difficultyValue / 10)) * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
 
 function CalculationSection(props) {
     const [difficultyValue, setDifficultyValue] = useState(0);
     const [isOnline, setIsOnline] = useState(false);
+    const [isDoublePXP, setIsDoublePXP] = useState(false);
 
     const battingTotal =
-        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyValue, isOnline);
+        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
     const pitchingTotal =
-        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyValue, isOnline);
+        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
     const total = battingTotal + pitchingTotal;
 
     const difficultyText = (value) => difficulties.find(d => d.value === value)?.fullLabel || "N/A"
@@ -57,9 +58,13 @@ function CalculationSection(props) {
         setIsOnline(isChecked);
     }
 
+    const onDoublePXPChange = (event, isChecked) => {
+        setIsDoublePXP(isChecked);
+    }
+
     return (
         <div className="calculation-section">
-            <Stack direction="row" spacing={2} justifyContent="space-evenly">
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-evenly">
                 <Slider
                     aria-label="Always visible"
                     defaultValue={0}
@@ -73,10 +78,17 @@ function CalculationSection(props) {
                     valueLabelDisplay="on"
                     sx={{maxWidth: 500, marginLeft: "2em"}}
                 />
-                <FormGroup>
-                    <FormControlLabel control={<Switch checked={isOnline} onChange={onOnlineChange}/>}
-                                      labelPlacement="end" label="Online"/>
-                </FormGroup>
+
+                <Stack>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch checked={isOnline} onChange={onOnlineChange}/>}
+                                          labelPlacement="end" label="Online"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch checked={isDoublePXP} onChange={onDoublePXPChange}/>}
+                                          labelPlacement="end" label="Double PXP"/>
+                    </FormGroup>
+                </Stack>
 
             </Stack>
             <Stack>
