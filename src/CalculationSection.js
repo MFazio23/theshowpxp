@@ -29,23 +29,24 @@ const difficulties = [
     },
 ];
 
-const calculateStatsTotal = (stats, counts, difficultyValue, isOnline, isDoublePXP) => {
+const calculateStatsTotal = (stats, counts, difficultyValue, isMLBTS26Scoring, isOnline, isDoublePXP) => {
     const statsTotal = stats.reduce((total, stat) => counts[stat.label] * stat.value + total, 0);
 
-    return parseInt(statsTotal * calculateMultiplier(difficultyValue, isOnline, isDoublePXP));
+    return parseInt(statsTotal * calculateMultiplier(difficultyValue, isMLBTS26Scoring, isOnline, isDoublePXP));
 }
 
-const calculateMultiplier = (difficultyValue, isOnline, isDoublePXP) => (1 + (difficultyValue / 10)) * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
+const calculateMultiplier = (difficultyValue, isMLBTS26Scoring, isOnline, isDoublePXP) => (1 + (difficultyValue / 10)) * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
 
 function CalculationSection(props) {
     const [difficultyValue, setDifficultyValue] = useState(0);
+    const [isMLBTS26Scoring, setIsMLBTS26Scoring] = useState(true);
     const [isOnline, setIsOnline] = useState(false);
     const [isDoublePXP, setIsDoublePXP] = useState(false);
 
     const battingTotal =
-        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
+        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyValue, isMLBTS26Scoring, isOnline, isDoublePXP);
     const pitchingTotal =
-        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
+        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyValue, isMLBTS26Scoring, isOnline, isDoublePXP);
     const total = battingTotal + pitchingTotal;
 
     const difficultyText = (value) => difficulties.find(d => d.value === value)?.fullLabel || "N/A"
@@ -80,6 +81,10 @@ function CalculationSection(props) {
                 />
 
                 <Stack>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch checked={isMLBTS26Scoring} onChange={onOnlineChange}/>}
+                                          labelPlacement="end" label="MLBTS 26 Scoring"/>
+                    </FormGroup>
                     <FormGroup>
                         <FormControlLabel control={<Switch checked={isOnline} onChange={onOnlineChange}/>}
                                           labelPlacement="end" label="Online"/>

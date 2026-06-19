@@ -4,7 +4,8 @@
       "name": "Plate Appearances",
       "label": "PA",
       "type": "int",
-      "value": 15
+      "value": 15,
+      "mlb26Value": 40
     },
     {
       "name": "Singles",
