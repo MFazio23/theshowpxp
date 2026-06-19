@@ -5,47 +5,81 @@ const difficulties = [
     {
         value: 0,
         label: 'R',
-        fullLabel: "Rookie"
+        fullLabel: "Rookie",
+        multipliers: {
+            mlb25: 1,
+            mlb26: 1,
+        }
     },
     {
         value: 1,
         label: 'V',
-        fullLabel: "Veteran"
+        fullLabel: "Veteran",
+        multipliers: {
+            mlb25: 1.1,
+            mlb26: 1.3,
+        }
     },
     {
         value: 2,
         label: 'A',
-        fullLabel: "All-Star"
+        fullLabel: "All-Star",
+        multipliers: {
+            mlb25: 1.2,
+            mlb26: 1.8,
+        }
     },
     {
         value: 3,
         label: 'H',
-        fullLabel: "Hall of Fame"
+        fullLabel: "Hall of Fame",
+        multipliers: {
+            mlb25: 1.3,
+            mlb26: 2.3,
+        }
     },
     {
         value: 4,
         label: 'L',
-        fullLabel: "Legend"
+        fullLabel: "Legend",
+        multipliers: {
+            mlb25: 1.4,
+            mlb26: 3,
+        }
+    },
+    {
+        value: 5,
+        label: 'G',
+        fullLabel: "G.O.A.T.",
+        multipliers: {
+            mlb25: 1.5,
+            mlb26: 3.5,
+        }
     },
 ];
 
-const calculateStatsTotal = (stats, counts, difficultyValue, isOnline, isDoublePXP) => {
-    const statsTotal = stats.reduce((total, stat) => counts[stat.label] * stat.value + total, 0);
+const calculateStatsTotal = (stats, counts, difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP) => {
+    const statsTotal = stats.reduce((total, stat) => counts[stat.label] * (isMLBTS26Scoring ? stat.mlb26Value : stat.value) + total, 0);
 
-    return parseInt(statsTotal * calculateMultiplier(difficultyValue, isOnline, isDoublePXP));
+    return Math.floor(statsTotal * calculateMultiplier(difficultyMultiplier, isOnline, isDoublePXP));
 }
 
-const calculateMultiplier = (difficultyValue, isOnline, isDoublePXP) => (1 + (difficultyValue / 10)) * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
+const calculateMultiplier = (difficultyMultiplier, isOnline, isDoublePXP) =>
+    difficultyMultiplier * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
 
 function CalculationSection(props) {
     const [difficultyValue, setDifficultyValue] = useState(0);
+    const [isMLBTS26Scoring, setIsMLBTS26Scoring] = useState(true);
     const [isOnline, setIsOnline] = useState(false);
     const [isDoublePXP, setIsDoublePXP] = useState(false);
 
+    const difficultyMultipliers = difficulties.find(d => d.value === difficultyValue).multipliers;
+    const difficultyMultiplier = isMLBTS26Scoring ? difficultyMultipliers.mlb26 : difficultyMultipliers.mlb25;
+
     const battingTotal =
-        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
+        calculateStatsTotal(props.calculatorItems.batting, props.currentTotals, difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP);
     const pitchingTotal =
-        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyValue, isOnline, isDoublePXP);
+        calculateStatsTotal(props.calculatorItems.pitching, props.currentTotals, difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP);
     const total = battingTotal + pitchingTotal;
 
     const difficultyText = (value) => difficulties.find(d => d.value === value)?.fullLabel || "N/A"
@@ -62,24 +96,32 @@ function CalculationSection(props) {
         setIsDoublePXP(isChecked);
     }
 
+    const onVersionChange = (event, isChecked) => {
+        setIsMLBTS26Scoring(isChecked);
+    }
+
     return (
         <div className="calculation-section">
-            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-evenly">
+            <Stack direction="column" spacing={2} alignItems="center" justifyContent="space-evenly">
                 <Slider
                     aria-label="Always visible"
                     defaultValue={0}
                     min={0}
-                    max={4}
+                    max={5}
                     getAriaValueText={difficultyText}
                     valueLabelFormat={difficultyText}
                     marks={difficulties}
                     onChange={onDifficultyChange}
                     value={difficultyValue}
                     valueLabelDisplay="on"
-                    sx={{maxWidth: 500, marginLeft: "2em"}}
+                    sx={{width: 500, maxWidth: '85%'}}
                 />
 
-                <Stack>
+                <Stack direction="row" gap={2} justifyContent="space-evenly" sx={{width: 500, maxWidth: "90%"}}>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch checked={isMLBTS26Scoring} onChange={onVersionChange}/>}
+                                          labelPlacement="end" label={isMLBTS26Scoring ? "MLB26" : "MLB25"}/>
+                    </FormGroup>
                     <FormGroup>
                         <FormControlLabel control={<Switch checked={isOnline} onChange={onOnlineChange}/>}
                                           labelPlacement="end" label="Online"/>
