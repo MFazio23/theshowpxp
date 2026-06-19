@@ -61,10 +61,11 @@ const difficulties = [
 const calculateStatsTotal = (stats, counts, difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP) => {
     const statsTotal = stats.reduce((total, stat) => counts[stat.label] * (isMLBTS26Scoring ? stat.mlb26Value : stat.value) + total, 0);
 
-    return Math.round(statsTotal * calculateMultiplier(difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP));
+    return Math.floor(statsTotal * calculateMultiplier(difficultyMultiplier, isOnline, isDoublePXP));
 }
 
-const calculateMultiplier = (difficultyMultiplier, isMLBTS26Scoring, isOnline, isDoublePXP) => difficultyMultiplier * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
+const calculateMultiplier = (difficultyMultiplier, isOnline, isDoublePXP) =>
+    difficultyMultiplier * (isOnline ? 1.5 : 1) * (isDoublePXP ? 2 : 1);
 
 function CalculationSection(props) {
     const [difficultyValue, setDifficultyValue] = useState(0);
